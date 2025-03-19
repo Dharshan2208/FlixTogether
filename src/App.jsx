@@ -39,7 +39,7 @@ function App() {
   useDebounce(() => setDebouncedSearchTerm(searchTerm), 1000, [searchTerm]);
 
   useEffect(() => {
-    document.title = 'Flixtogether'; 
+    document.title = 'Flixtogether';
   }, []);
 
   const handleInputCountChange = (count) => {
@@ -66,10 +66,10 @@ function App() {
       setRecError('Please fill in all movie fields');
       return;
     }
-    
+
     setRecLoading(true);
     setRecError(null);
-    
+
     try {
       const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-thinking-exp:generateContent", {
         method: "POST",
@@ -102,9 +102,9 @@ function App() {
           }]
         })
       });
-      
+
       if (!response.ok) throw new Error('Failed to get recommendations');
-      
+
       const data = await response.json();
       const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
       const movieEntries = text.split('\n')
@@ -117,13 +117,13 @@ function App() {
           const [titleWithLang, reason] = entry.split(' - ');
           const [title, originalTitle] = titleWithLang.split(' (');
           const cleanOriginalTitle = originalTitle ? originalTitle.slice(0, -1) : title;
-          
+
           const searchResponse = await fetch(
             `${API_BASE_URL}/search/movie?query=${encodeURIComponent(title)}`,
             API_OPTIONS
           );
           if (!searchResponse.ok) throw new Error(`Failed to fetch data for ${title}`);
-          
+
           const searchData = await searchResponse.json();
           return { ...searchData.results[0] || { title }, recommendationReason: reason || 'No reason provided' };
         })
@@ -144,14 +144,14 @@ const fetchMovies = async (query = "") => {
   try {
     let endpoint;
     if (query) {
-      endpoint = `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}`;
+      endpoint = `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}&include_adult=false&language=en-US`;
     } else {
-      endpoint = `${API_BASE_URL}/discover/movie?sort_by=popularity.desc&without_genres=99`;
+      endpoint = `${API_BASE_URL}/discover/movie?sort_by=popularity.desc&without_genres=99&include_adult=false&language=en-US`;
     }
 
     const response = await fetch(endpoint, API_OPTIONS);
     if (!response.ok) throw new Error("Failed to fetch movies");
-    
+
     const data = await response.json();
     setMovieList(data.results || []);
     if (query && data.results[0]) {
@@ -166,7 +166,7 @@ const fetchMovies = async (query = "") => {
 
   const loadTrendingMovies = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/trending/movie/week`, API_OPTIONS);
+      const response = await fetch(`${API_BASE_URL}/trending/movie/week?include_adult=false&language=en-US`,API_OPTIONS);
       const data = await response.json();
       setTrendingMovies(data.results.slice(0, 10));
     } catch (error) {
@@ -195,22 +195,22 @@ const fetchMovies = async (query = "") => {
           <h1>Find <span>Movies</span> You'll Enjoy</h1>
           <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
         </header>
-        
+
         <section className="movie-mixer">
           <h2>Movie Mixer</h2>
           <InputSelector onSelect={handleInputCountChange} />
-          
+
           {inputCount > 0 && (
             <>
-              <MovieInputs 
-                count={inputCount} 
-                movies={movies} 
-                onChange={handleMovieChange} 
+              <MovieInputs
+                count={inputCount}
+                movies={movies}
+                onChange={handleMovieChange}
               />
           <button
             onClick={handleSubmit}
             disabled={recLoading || movies.some(movie => !movie.trim())}
-            className={`submit-button ${recLoading ? 'loading' : ''}`} 
+            className={`submit-button ${recLoading ? 'loading' : ''}`}
           >
             {recLoading ? (
               <>
@@ -221,8 +221,8 @@ const fetchMovies = async (query = "") => {
             )}
           </button>
               {recError && <div className="error-message">{recError}</div>}
-              <RecommendationsList 
-                recommendations={recommendations} 
+              <RecommendationsList
+                recommendations={recommendations}
                 onShowDetails={handleShowDetails}
               />
             </>
@@ -234,7 +234,7 @@ const fetchMovies = async (query = "") => {
             <div className="trending-header">
               <h2>Trending Movies</h2>
               <div className="navigation-arrows">
-                <button 
+                <button
                   className="scroll-arrow left-arrow"
                   onClick={() => {
                     const container = document.querySelector('.trending ul');
@@ -246,7 +246,7 @@ const fetchMovies = async (query = "") => {
                     <path fill="currentColor" d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
                   </svg>
                 </button>
-                <button 
+                <button
                   className="scroll-arrow right-arrow"
                   onClick={() => {
                     const container = document.querySelector('.trending ul');
@@ -264,9 +264,9 @@ const fetchMovies = async (query = "") => {
               <ul className="hide-scrollbar">
                 {trendingMovies.map((movie) => (
                   <li key={movie.id}>
-                    <MovieCard 
-                      movie={movie} 
-                      onShowDetails={handleShowDetails} 
+                    <MovieCard
+                      movie={movie}
+                      onShowDetails={handleShowDetails}
                     />
                   </li>
                 ))}
