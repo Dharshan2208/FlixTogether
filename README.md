@@ -1,70 +1,103 @@
 <p align="center">
   <a href="" rel="noopener">
- <img src="https://i.imgur.com/AZ2iWek.png" alt="Project logo"></a>
+    <img src="https://i.imgur.com/AZ2iWek.png" alt="Flixtogether Logo" width="200">
+  </a>
 </p>
-<h3 align="center">Movie Mixer</h3>
+
+<h3 align="center">Flixtogether</h3>
+
+<p align="center">
+  Personalized Group-Based Movie Recommendations<br>
+  Bringing people together, one movie at a time.
+</p>
 
 ---
 
-<p align="center"> Movie Mixer: Personalized Group-Based Movie Suggestions
-    <br> 
-</p>
-
 ## 📝 Table of Contents
 
-- [Problem Statement](#problem_statement)
+- [Problem Statement](#problem-statement)
 - [Solution](#solution)
-- [Innovation and Impact](#iai)
-- [Future Scope](#future_scope)
-- [Tech Stack](#tech_stack)
+- [Innovation and Impact](#innovation-and-impact)
+- [Installation](#installation)
+- [Future Scope](#future-scope)
+- [Tech Stack](#tech-stack)
 - [Authors](#authors)
 
-## 🧐 Problem Statement <a name = "problem_statement"></a>
+## 🧐 Problem Statement <a name="problem-statement"></a>
 
-Choosing a movie for a group of people with diverse preferences can be
-a time-consuming and frustrating task. Existing recommendation systems primarily focus on
-individual preferences and do not effectively cater to group dynamics. Our project aims to
-streamline this process by providing a smart movie recommendation system that considers
-the choices of multiple users and suggests the most suitable movie while also presenting
-relevant details and ratings.
+Picking a movie for a group with diverse tastes often turns into a lengthy, frustrating ordeal. Existing recommendation tools focus on individual preferences, neglecting the needs of group dynamics. Flixtogether steps in to simplify this by delivering a smart system that blends multiple user choices into tailored movie suggestions, complete with ratings and details.
 
-## 💡 Solution <a name = "solution"></a>
+## 💡 Solution <a name="solution"></a>
 
-Our system collects movie preferences from a group of users, processes
-their choices using a weighted recommendation algorithm, and suggests the most suitable
-movie based on collective preferences. The application integrates the TMDB API to fetch movie
-details, including ratings, ensuring informed decision-making.
+Flixtogether collects movie preferences from a group, runs them through a weighted recommendation algorithm, and proposes films that suit everyone’s tastes. Powered by the TMDb API, it fetches up-to-date movie info—including ratings and genres—ensuring groups can decide with confidence and ease.
 
-## 👨‍💻 Innovation And Impact <a name = "iai"></a>
+## 👨‍💻 Innovation and Impact <a name="innovation-and-impact"></a>
 
-Our project introduces a collaborative filtering approach tailored for
-group decision-making, setting it apart from traditional recommendation systems that focus
-on individual users. The use of real-time TMDb ratings adds credibility and
-transparency to the recommendations. By simplifying the movie selection process for
-groups, this project enhances social experiences, making movie nights more enjoyable and
-efficient. Additionally, the system's adaptability to various genres and user preferences
-makes it a valuable tool for any movie-watching scenario.
+Flixtogether sets itself apart with a collaborative filtering method designed for groups, not just individuals. By leveraging real-time TMDb ratings, it offers transparent, trustworthy recommendations. This streamlines the movie-picking process, enhancing social gatherings and making movie nights more enjoyable across a wide range of genres and preferences.
 
-## 🚀 Future Scope <a name = "future_scope"></a>
+## 🛠️ Installation <a name="installation"></a>
 
-- A user feedback system
-- User profiles
-- Personalized recommendations based on user history
-- Integration with popular streaming services (e.g., Netflix, Amazon Prime)
+Get Flixtogether up and running locally with these steps:
 
-## ⛏️ Tech Stack <a name = "tech_stack"></a>
+1. **Clone the Repository**  
+   ```bash
+   git clone https://github.com/Dharshan2208/flixtogether.git
+   cd flixtogether
+   ```
 
-- [React](https://reactjs.org/) - Frontend Library
-- [Vite](https://vite.dev/) - Development Server
-- [Tailwind](https://tailwindcss.com/) - CSS Framework
-- [TMDb API](https://developer.themoviedb.org/docs/getting-started) - Data API
-- [Appwrite](https://www.appwrite.io/) - Database
-- [Node.js](https://nodejs.org/) - Runtime Environment
-- [Gemini API](https://ai.google.dev/gemini-api/docs) - AI API
-- [Vercel](https://vercel.com/) - Deployment
+2. **Install Dependencies**  
+   Ensure you have [Node.js](https://nodejs.org/) installed, then run:  
+   ```bash
+   npm install
+   ```
 
-## ✍️ Authors <a name = "authors"></a>
+3. **Set Up Environment Variables**  
+   Create a `.env` file in the root directory and add your API keys:  
+   ```env
+   VITE_TMDB_API_KEY=your_tmdb_api_key_here
+   VITE_GEMINI_API_KEY=your_gemini_api_key_here
+   VITE_APPWRITE_PROJECT_ID=your_appwrite_project_id
+   VITE_APPWRITE_DATABASE_ID=your_appwrite_database_id
+   VITE_APPWRITE_COLLECTION_ID=your_appwrite_collection_id
+   
+   ```
 
-- [@arhamgarg](https://github.com/arhamgarg)
-- [@Dharshan2208](https://github.com/Dharshan2208)
-- [@JestiferHarold](https://github.com/JestiferHarold)
+4. **Start the Development Server**  
+   ```bash
+   npm run dev
+   ```
+   Open your browser to `http://localhost:5173` to see Flixtogether in action.
+
+5. **Build for Production** (Optional)  
+   ```bash
+   npm run build
+   ```
+   Preview the production build with:  
+   ```bash
+   npm run preview
+   ```
+
+## 🚀 Future Scope <a name="future-scope"></a>
+
+- **User Feedback System**: Allow users to rate suggestions for better accuracy.
+- **User Profiles**: Save preferences for personalized experiences.
+- **Watch History**: Tailor recommendations based on past selections.
+- **Streaming Integration**: Connect to platforms like Netflix or Amazon Prime.
+
+## ⛏️ Tech Stack <a name="tech-stack"></a>
+
+- **[React](https://reactjs.org/)** - Dynamic frontend library
+- **[Vite](https://vite.dev/)** - High-speed development server
+- **[Tailwind CSS](https://tailwindcss.com/)** - Modern, responsive styling
+- **[TMDb API](https://developer.themoviedb.org/docs/getting-started)** - Real-time movie data
+- **[Appwrite](https://www.appwrite.io/)** - Efficient database solution
+- **[Node.js](https://nodejs.org/)** - Robust runtime environment
+- **[Gemini API](https://ai.google.dev/gemini-api/docs)** - AI-powered recommendations
+- **[Vercel](https://vercel.com/)** - Easy deployment platform
+
+## ✍️ Authors <a name="authors"></a>
+
+- **[Arham Garg](https://github.com/arhamgarg)** 
+- **[Dharshan2208](https://github.com/Dharshan2208)** 
+- **[Jestifer Harold](https://github.com/JestiferHarold)** 
+---
