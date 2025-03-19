@@ -1,6 +1,6 @@
 <p align="center">
   <a href="" rel="noopener">
-    <img src="https://i.imgur.com/AZ2iWek.png" alt="Flixtogether Logo" width="400">
+    <img src="https://i.imgur.com/AZ2iWek.png" alt="Flixtogether Logo" width="600">
   </a>
 </p>
 
