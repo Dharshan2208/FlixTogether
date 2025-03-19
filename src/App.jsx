@@ -146,7 +146,7 @@ const fetchMovies = async (query = "") => {
     if (query) {
       endpoint = `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}&include_adult=false&language=en-US`;
     } else {
-      endpoint = `${API_BASE_URL}/discover/movie?sort_by=popularity.desc&without_genres=99&include_adult=false&language=en-US`;
+      endpoint = `${API_BASE_URL}/discover/movie?sort_by=popularity.desc&include_adult=false&language=en-US&without_genres=99&vote_count.gte=500&certification.lte=PG-13`;
     }
 
     const response = await fetch(endpoint, API_OPTIONS);
@@ -166,7 +166,7 @@ const fetchMovies = async (query = "") => {
 
   const loadTrendingMovies = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/trending/movie/week?include_adult=false&language=en-US`,API_OPTIONS);
+      const response = await fetch(`${API_BASE_URL}/trending/movie/week?include_adult=false`,API_OPTIONS);
       const data = await response.json();
       setTrendingMovies(data.results.slice(0, 10));
     } catch (error) {
