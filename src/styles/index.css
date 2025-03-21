@@ -789,4 +789,84 @@ h2 {
     font-size: 14px;
     margin: 0 auto;
   }
+  .modal-overlay {
+    padding: 10px;
+  }
+
+  .modal-content {
+    width: 95%;
+    max-height: 85vh;
+    padding: 15px;
+    border-radius: 12px;
+  }
+
+  .close-btn {
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    font-size: 24px;
+  }
+
+  .movie-header {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .poster {
+    width: 100%;
+    max-width: 250px;
+    border-radius: 8px;
+  }
+
+  .movie-info h1 {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .movie-info p {
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .play-trailer-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .trailer-container {
+    padding-bottom: 56.25%;
+    margin-top: 15px;
+  }
+
+  .movie-story {
+    margin-top: 15px;
+  }
+
+  .movie-story h2 {
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .movie-story p {
+    font-size: 14px;
+    text-align: left;
+  }
+
+  .recommendation-reason {
+    margin-top: 15px;
+  }
+
+  .recommendation-reason h2 {
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .recommendation-reason p {
+    font-size: 14px;
+    text-align: left;
+  }
 }
