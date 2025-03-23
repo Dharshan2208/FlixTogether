@@ -6,6 +6,7 @@ import MovieInputs from './components/MovieInputs';
 import RecommendationsList from './components/RecommendationsList';
 import Spinner from './components/Spinner';
 import MovieDetails from './components/MovieDetails';
+import Preloader from './components/Preloader';
 import { useState, useEffect } from 'react';
 import { useDebounce } from 'react-use';
 import './styles/index.css';
@@ -27,6 +28,7 @@ function App() {
   const [movies, setMovies] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
   const [recLoading, setRecLoading] = useState(false);
+  const [recProgress, setRecProgress] = useState(0);
   const [recError, setRecError] = useState(null);
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
@@ -68,9 +70,12 @@ function App() {
     }
 
     setRecLoading(true);
+    setRecProgress(0);
     setRecError(null);
 
     try {
+      setRecProgress(10); // Request started
+
       const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-thinking-exp:generateContent", {
         method: "POST",
         headers: {
@@ -103,6 +108,8 @@ function App() {
         })
       });
 
+      setRecProgress(50); // Response received
+
       if (!response.ok) throw new Error('Failed to get recommendations');
 
       const data = await response.json();
@@ -111,6 +118,8 @@ function App() {
         .filter(movie => movie.trim())
         .map(entry => entry.trim())
         .slice(0, 5);
+
+      setRecProgress(70); // Processing data
 
       const detailedMovies = await Promise.all(
         movieEntries.map(async (entry) => {
@@ -129,44 +138,46 @@ function App() {
         })
       );
 
+      setRecProgress(100); // Complete
       setRecommendations(detailedMovies);
     } catch (error) {
+      setRecProgress(100); // Complete even on error
       setRecError(error.message || 'Failed to get recommendations');
     } finally {
       setRecLoading(false);
     }
   };
 
-const fetchMovies = async (query = "") => {
-  setSearchLoading(true);
-  setSearchError("");
+  const fetchMovies = async (query = "") => {
+    setSearchLoading(true);
+    setSearchError("");
 
-  try {
-    let endpoint;
-    if (query) {
-      endpoint = `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}&include_adult=false&language=en-US`;
-    } else {
-      endpoint = `${API_BASE_URL}/discover/movie?sort_by=popularity.desc&include_adult=false&language=en-US&without_genres=99&vote_count.gte=500&certification.lte=PG-13`;
+    try {
+      let endpoint;
+      if (query) {
+        endpoint = `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}&include_adult=false&language=en-US`;
+      } else {
+        endpoint = `${API_BASE_URL}/discover/movie?sort_by=popularity.desc&include_adult=false&language=en-US&without_genres=99&vote_count.gte=500&certification.lte=PG-13`;
+      }
+
+      const response = await fetch(endpoint, API_OPTIONS);
+      if (!response.ok) throw new Error("Failed to fetch movies");
+
+      const data = await response.json();
+      setMovieList(data.results || []);
+      if (query && data.results[0]) {
+        updateSearchCount(query, data.results[0]);
+      }
+    } catch (error) {
+      setSearchError("Error fetching movies");
+    } finally {
+      setSearchLoading(false);
     }
-
-    const response = await fetch(endpoint, API_OPTIONS);
-    if (!response.ok) throw new Error("Failed to fetch movies");
-
-    const data = await response.json();
-    setMovieList(data.results || []);
-    if (query && data.results[0]) {
-      updateSearchCount(query, data.results[0]);
-    }
-  } catch (error) {
-    setSearchError("Error fetching movies");
-  } finally {
-    setSearchLoading(false);
-  }
-};
+  };
 
   const loadTrendingMovies = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/trending/movie/week?include_adult=false`,API_OPTIONS);
+      const response = await fetch(`${API_BASE_URL}/trending/movie/week?include_adult=false`, API_OPTIONS);
       const data = await response.json();
       setTrendingMovies(data.results.slice(0, 10));
     } catch (error) {
@@ -180,7 +191,7 @@ const fetchMovies = async (query = "") => {
   }, [debouncedSearchTerm]);
 
   const handleShowDetails = (movieId) => {
-    console.log('Showing details for movie ID:', movieId); // Debug
+    console.log('Showing details for movie ID:', movieId);
     setSelectedMovieId(movieId);
   };
 
@@ -190,6 +201,13 @@ const fetchMovies = async (query = "") => {
 
   return (
     <Router>
+      {recLoading && (
+        <Preloader
+          isLoading={recLoading}
+          progress={recProgress}
+          setLoading={setRecLoading}
+        />
+      )}
       <main className="wrapper">
         <header>
           <h1>Find <span>Movies</span> You'll Enjoy</h1>
@@ -207,19 +225,13 @@ const fetchMovies = async (query = "") => {
                 movies={movies}
                 onChange={handleMovieChange}
               />
-          <button
-            onClick={handleSubmit}
-            disabled={recLoading || movies.some(movie => !movie.trim())}
-            className={`submit-button ${recLoading ? 'loading' : ''}`}
-          >
-            {recLoading ? (
-              <>
-                <Spinner />
-              </>
-            ) : (
-              'Get Recommendations'
-            )}
-          </button>
+              <button
+                onClick={handleSubmit}
+                disabled={recLoading || movies.some(movie => !movie.trim())}
+                className={`submit-button ${recLoading ? 'loading' : ''}`}
+              >
+                {recLoading ? <Spinner /> : 'Get Recommendations'}
+              </button>
               {recError && <div className="error-message">{recError}</div>}
               <RecommendationsList
                 recommendations={recommendations}
@@ -229,7 +241,7 @@ const fetchMovies = async (query = "") => {
           )}
         </section>
 
-      {trendingMovies.length > 0 && (
+        {trendingMovies.length > 0 && (
           <section className="trending">
             <div className="trending-header">
               <h2>Trending Movies</h2>
