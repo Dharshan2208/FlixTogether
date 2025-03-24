@@ -1,4 +1,3 @@
-// src/components/Search.jsx
 export default function Search({ searchTerm, setSearchTerm }) {
   return (
     <div className="search">

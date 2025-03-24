@@ -187,8 +187,11 @@ function App() {
 
   useEffect(() => {
     fetchMovies(debouncedSearchTerm);
-    loadTrendingMovies();
   }, [debouncedSearchTerm]);
+
+  useEffect(() =>{
+    loadTrendingMovies();
+  })
 
   const handleShowDetails = (movieId) => {
     console.log('Showing details for movie ID:', movieId);

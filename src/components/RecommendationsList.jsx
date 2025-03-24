@@ -11,8 +11,8 @@ export default function RecommendationsList({ recommendations, onShowDetails }) 
       <ul className="recommendations-list">
         {recommendations.map((movie, index) => (
           <li key={index} className="recommendation-item">
-            <MovieCard 
-              movie={movie} 
+            <MovieCard
+              movie={movie}
               onShowDetails={onShowDetails}
             />
           </li>
