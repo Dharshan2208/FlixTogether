@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const phrases = [
-  "Unraveling the reel to seduce your group with the ultimate movie night...",
+  "Unraveling the mysteries to seduce your group with the ultimate movie night...",
   "Diving into IMDb's deepest secrets for ratings that thrill...",
   "Weaving everyone's desires into a tapestry of cinematic bliss...",
   "Handpicking a flick so perfect it'll steal the spotlight...",
